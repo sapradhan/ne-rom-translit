@@ -1,0 +1,191 @@
+;; ne-rom-translit.mim -- Nepali input method with roman transliteration
+;; keymapping
+;; Creative commons (CC) 2013 Santosh Pradhan
+
+;; This file is part of the m17n database; a sub-part of the m17n
+;; library.
+
+;; The m17n library is free software; you can redistribute it and/or
+;; modify it under the terms of the GNU Lesser General Public License
+;; as published by the Free Software Foundation; either version 2.1 of
+;; the License, or (at your option) any later version.
+
+;; The m17n library is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+;; Lesser General Public License for more details.
+
+;; You should have received a copy of the GNU Lesser General Public
+;; License along with the m17n library; if not, write to the Free
+;; Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+(input-method ne rom-translit)
+
+(description "Nepali input method by roman transliteration.")
+
+(title "ने")
+
+(map
+ (starter
+  ("~") ("*") (".") ((S-\ )) ((C-@))
+  ("0") ("1") ("2") ("3") ("4")
+  ("5") ("6") ("7") ("8") ("9")
+  ("A") ("C") ("D") ("E") ("G") ("H") ("I") ("J") ("K") ("L")
+  ("M") ("N") ("O") ("R") ("S") ("T") ("U") ("Y")
+  ("a") ("b") ("c") ("d") ("e") ("f") ("g") ("h") ("i")
+  ("j") ("k") ("l") ("m") ("n") ("o") ("p") ("q") ("r")
+  ("s") ("t") ("u") ("v") ("w") ("x") ("y") ("z")
+  ((KP_1)) ((KP_2)) ((KP_3)) ((KP_4)) ((KP_5))
+  ((KP_6)) ((KP_7)) ((KP_8)) ((KP_9)) ((KP_0)))
+
+ (consonant
+  ("k" "क")
+  ("q" "क")
+  ("kh" "ख")
+  ("g" "ग")
+  ("gh" "घ")
+  ("ng" "ङ")
+
+  ("c" "च")
+  ("ch" "च")
+  ("chh" "छ")
+  ("j" "ज")
+  ("z" "ज")
+  ("jh" "झ")
+  ("yn" "ञ")
+
+  ("T" "ट")
+  ("Th" "ठ")
+  ("D" "ड")
+  ("Dh" "ढ")
+  ("N" "ण")
+
+  ("t" "त")
+  ("th" "थ")
+  ("d" "द")
+  ("dh" "ध")
+  ("n" "न")
+
+  ("p" "प")
+  ("f" "फ")
+  ("ph" "फ")
+  ("b" "ब")
+  ("bh" "भ")
+  ("m" "म")
+
+  ("y" "य")
+  ("r" "र")
+  ("l" "ल")
+  ("v" "व")
+  ("w" "व")
+
+  ("sh" "श")
+  ("Sh" "ष")
+  ("shh" "ष")
+  ("s" "स")
+  ("h" "ह")
+
+  ("ksh" "क्ष")
+  ("x" "क्स")
+  ("gyn" "ज्ञ")
+  )
+
+ (independent
+  ("a" "अ")
+  ("aa" "आ")
+  ("A" "आ")
+  ("i" "इ")
+  ("ii" "ई")
+  ("I" "ई")
+  ("u" "उ")
+  ("uu" "ऊ")
+  ("U" "ऊ")
+  ("rri" "ऋ")
+  ("rree" "ॠ")
+  ("e" "ए")
+  ("ai" "ऐ")
+  ("o" "ओ")
+  ("au" "औ")
+  ("~a" "ऽ")
+  ("\\" "्")
+  ("AUM" "ॐ")
+  ("OM" "ॐ")
+  ("0" "०")
+  ("1" "१")
+  ("2" "२")
+  ("3" "३")
+  ("4" "४")
+  ("5" "५")
+  ("6" "६")
+  ("7" "७")
+  ("8" "८")
+  ("9" "९")
+  ((KP_1) "१")
+  ((KP_2) "२")
+  ((KP_3) "३")
+  ((KP_4) "४")
+  ((KP_5) "५")
+  ((KP_6) "६")
+  ((KP_7) "७")
+  ((KP_8) "८")
+  ((KP_9) "९")
+  ((KP_0) "०")
+  ((S-\ ) "‌")
+  ((C-@) "‍"))
+
+ (dependent
+  ("a" "")
+  ("aa" "ा")
+  ("A" "ा")
+  ("i" "ि")
+  ("ii" "ी")
+  ("I" "ी")
+  ("u" "ु")
+  ("uu" "ू")
+  ("U" "ू")
+  ("oo" "ू")
+  ("rri" "ृ")
+  ("rrii" "ॄ")
+  ("e" "े")
+  ("ai" "ै")
+  ("o" "ो")
+  ("au" "ौ")
+  ("~N" "ँ")
+  ("**" "ँ")
+  ("*" "ं")
+  ("M" "ं")
+  ("H" "ः"))
+
+ (purna-biram
+  ("." "।")
+  (".." "॥"))
+
+ (return
+  ((Return)))
+
+ (backspace
+  ((BackSpace) (undo))))
+
+(state
+ (init
+  (starter (pushback 1) (shift intermediate)))
+
+ (intermediate
+  (consonant (mark LAST-CONSONANT-POS) (shift second))
+  (independent (shift init))
+  (backspace)
+  (purna-biram (shift init))
+  (return (shift init)))
+
+ (second
+  (consonant (mark TEMP) (move LAST-CONSONANT-POS) (insert ?्) (move TEMP) (mark LAST-CONSONANT-POS))
+  (dependent (shift init))
+  (backspace)
+  (purna-biram (shift init))
+  (return (shift init))))
+
+;; Local Variables:
+;; coding: utf-8
+;; mode: emacs-lisp
+;; End:
