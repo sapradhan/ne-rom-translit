@@ -9,8 +9,9 @@ Full documentation [here](http://nepalitankan.blogspot.com/2013/11/ne-rom-transl
 This layout is still in early stages of development. Use Issue Tracker for this project to report issues and send suggestions. 
  
 ## installation instructions for Ubuntu 
-- install packages `ibus` and `ibus-m17n` 
+- install packages `ibus` and `ibus-m17n`
+- download and extract `ne-rom-translit.zip` from [latest release](http://github.com/sapradhan/ne-rom-translit/releases)
 - copy `ne-rom-translit.mim` to `/usr/share/m17n` (installation dir of m17n-db as of 12.04)
-- copy `ne-rom-translit.png` to `/usr/share/m17n/icons`
+- copy `icons/ne-rom-translit.png` to `/usr/share/m17n/icons`
 - restart ibus engine
 - new layout rom-translit should be available under Nepali Language in IBus preferences
