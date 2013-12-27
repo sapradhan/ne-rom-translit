@@ -28,26 +28,33 @@
 
 (map
  (starter
-  ("~") ("*") (".") ((S-\ )) ((C-@))
+  ("~") (".") 
   ("0") ("1") ("2") ("3") ("4")
   ("5") ("6") ("7") ("8") ("9")
-  ("A") ("C") ("D") ("E") ("G") ("H") ("I") ("J") ("K") ("L")
-  ("M") ("N") ("O") ("R") ("S") ("T") ("U") ("Y")
+  ("A") ("D") ("I") 
+  ("O") ("S") ("T") ("U")
   ("a") ("b") ("c") ("d") ("e") ("f") ("g") ("h") ("i")
   ("j") ("k") ("l") ("m") ("n") ("o") ("p") ("q") ("r")
   ("s") ("t") ("u") ("v") ("w") ("x") ("y") ("z")
   ((KP_1)) ((KP_2)) ((KP_3)) ((KP_4)) ((KP_5))
   ((KP_6)) ((KP_7)) ((KP_8)) ((KP_9)) ((KP_0)))
+  
+ (non-starter-caps
+  ("B") ("C") ("E") 
+  ("F") ("G") ("H") ("J") 
+  ("K") ("L") ("M") ("N")
+  ("P") ("Q") ("R")
+  ("V") ("W") ("X") ("Y") ("Z"))
 
  (consonant
   ("k" "क")
   ("q" "क")
+  ("c" "क")
   ("kh" "ख")
   ("g" "ग")
   ("gh" "घ")
   ("ng" "ङ")
 
-  ("c" "च")
   ("ch" "च")
   ("chh" "छ")
   ("j" "ज")
@@ -56,11 +63,15 @@
   ("yn" "ञ")
 
   ("T" "ट")
+  ("t/" "ट")
   ("Th" "ठ")
+  ("th/" "ठ")
   ("D" "ड")
+  ("d/" "ड")
   ("Dh" "ढ")
-  ("N" "ण")
-
+  ("dh/" "ढ")
+  ("n/" "ण")
+  
   ("t" "त")
   ("th" "थ")
   ("d" "द")
@@ -100,17 +111,17 @@
   ("i" "इ")
   ("ii" "ई")
   ("I" "ई")
+  ("ee" "ई")
   ("u" "उ")
   ("uu" "ऊ")
   ("U" "ऊ")
+  ("oo" "ऊ")
   ("rri" "ऋ")
   ("rree" "ॠ")
   ("e" "ए")
   ("ai" "ऐ")
   ("o" "ओ")
   ("au" "औ")
-  ("~a" "ऽ")
-  ("\\" "्")
   ("AUM" "ॐ")
   ("OM" "ॐ")
   ("0" "०")
@@ -133,8 +144,7 @@
   ((KP_8) "८")
   ((KP_9) "९")
   ((KP_0) "०")
-  ((S-\ ) "‌")
-  ((C-@) "‍"))
+  )
 
  (dependent
   ("a" "")
@@ -143,6 +153,7 @@
   ("i" "ि")
   ("ii" "ी")
   ("I" "ी")
+  ("ee" "ी")
   ("u" "ु")
   ("uu" "ू")
   ("U" "ू")
@@ -153,39 +164,49 @@
   ("ai" "ै")
   ("o" "ो")
   ("au" "ौ")
-  ("~N" "ँ")
-  ("**" "ँ")
-  ("*" "ं")
-  ("M" "ं")
-  ("H" "ः"))
+  ("|" ‌"्‍")
+  ("\\" "्‌")
+  )
 
+ (anuswar
+  ("*" "ँ")
+  ("M" "ं")
+  ("N" "ं")
+  ("H" "ः")
+  )
+  
  (purna-biram
   ("." "।")
-  (".." "॥"))
-
- (return
-  ((Return)))
+  (".." "॥")
+  ("~a" "ऽ")
+  )
 
  (backspace
-  ((BackSpace) (undo))))
+  ((BackSpace) (undo)))
+ )
 
 (state
  (init
   (starter (pushback 1) (shift intermediate)))
+  
+ (in-word
+  (anuswar (shift init))
+  (starter (pushback 1) (shift intermediate)))
 
  (intermediate
   (consonant (mark LAST-CONSONANT-POS) (shift second))
-  (independent (shift init))
+  (independent (shift in-word))
   (backspace)
   (purna-biram (shift init))
-  (return (shift init)))
+  )
 
  (second
   (consonant (mark TEMP) (move LAST-CONSONANT-POS) (insert ?्) (move TEMP) (mark LAST-CONSONANT-POS))
-  (dependent (shift init))
+  (dependent (shift in-word))
+  (anuswar (shift init))
   (backspace)
   (purna-biram (shift init))
-  (return (shift init))))
+  ))
 
 ;; Local Variables:
 ;; coding: utf-8
