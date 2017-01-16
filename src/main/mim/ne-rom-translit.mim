@@ -24,7 +24,7 @@
 
 (description "Nepali input method by roman transliteration.")
 
-(title "ने")
+(title "ने translit")
 
 (map
  (starter
